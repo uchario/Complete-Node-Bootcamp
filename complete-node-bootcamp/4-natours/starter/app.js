@@ -1,7 +1,9 @@
 const fs = require('fs');
 const express = require('express');
-const { create } = require('domain');
+const morgan = require('morgan');
 const app = express();
+
+app.use(morgan('dev'));
 
 app.use(express.json()); //enables request pareams to be accessible
 
@@ -24,7 +26,6 @@ const tours = JSON.parse(
     );
 
 const getAllTours = (req, res) => {
-    console.log(req.requestTime);
     res.status(200)
         .json({
             status: 'success',
@@ -40,7 +41,7 @@ const getTourById = (req, res) => {
     const tour = tours.find(el => el.id === id);
 
     if(id > tours.length) {
-        res.status(404)
+        return res.status(404)
             .json({
                 status: 'Fail',
                 message: 'Invalid ID'
@@ -57,7 +58,7 @@ const getTourById = (req, res) => {
 
 const updateTourById = (req, res) => {
     if(+req.params.id > tours.length) {
-        res.status(404)
+        return res.status(404)
             .json({
                 status: 'Fail',
                 message: 'Invalid ID'
@@ -82,7 +83,7 @@ const deleteTourById = (req, res) => {
             });
     }
 
-    return res.status(204)
+    res.status(204)
         .json({
             status: 'success',
             data: null
