@@ -7,7 +7,7 @@ const app = express();
 // Middleware for data about routes
 app.use(morgan('dev'));
 
-app.use(express.json()); //enables request pareams to be accessible
+app.use(express.json()); //enables request params to be accessible
 
 app.use((req, res, next) => {
     console.log('Hello from the middleware🙄');
