@@ -5,7 +5,9 @@ const userRouter = require('./routes/userRoutes')
 const app = express();
 
 // Middleware for data about routes
-app.use(morgan('dev'));
+if(process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'));
+}
 app.use(express.json()); //enables request params to be accessible
 app.use(express.static(`${__dirname}/public`)); //serving status content
 
