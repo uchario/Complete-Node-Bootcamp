@@ -5,27 +5,44 @@ const Tour = require('../models/tourModel');
 //                 `${__dirname}/../dev-data/data/tours-simple.json`
 //             )
 //     );
-exports.getAllTours = (req, res) => {
-    res.status(200)
-        .json({
-            status: 'success',
-            results: tours.length,
-            // data: {
-            //     tours: tours
-            // }
-        })};
-
-exports.getTourById = (req, res) => {
-    console.log(req.params);
-    const id = +req.params.id;
-    // const tour = tours.find(el => el.id === id);
-    res.status(200)
-        .json({
-            status: 'success',
-            // data: {
-            //     tour
-            // }
+exports.getAllTours = async (req, res) => {
+    try {
+        const tours = await Tour.find();
+        res.status(200)
+            .json({
+                status: 'success',
+                results: tours.length,
+                data: {
+                    tours: tours
+                }
+            });
+    } catch(e) {
+        res.status(404)
+            .json({
+                status: 'fail',
+                message: e
         });
+    }
+}
+    
+
+exports.getTourById = async (req, res) => {
+    try {
+        const tour = await Tour.findById(req.params.id);
+        res.status(200)
+        .json({
+            status: 'success',
+            data: {
+                tour
+            }
+        });
+    } catch(e) {
+        res.status(404)
+            .json({
+                status: 'fail',
+                message: e
+            });
+    }
 };
 
 exports.updateTourById = (req, res) => {

@@ -14,12 +14,6 @@ mongoose.connect(DB, {
     console.log('DB Connection Successful')
 }).catch(e => console.log(e));
 
-// const testTour = new Tour({
-//     name: 'The Kemage',
-//     rating: 4.5,
-//     price: 500
-// });
-
 const app = require('./app');
 
 const port = process.env.PORT;
