@@ -12,7 +12,13 @@ mongoose.connect(DB, {
 }).then(conn => {
     console.log(conn.connections);
     console.log('DB Connection Successful')
-});
+}).catch(e => console.log(e));
+
+// const testTour = new Tour({
+//     name: 'The Kemage',
+//     rating: 4.5,
+//     price: 500
+// });
 
 const app = require('./app');
 
