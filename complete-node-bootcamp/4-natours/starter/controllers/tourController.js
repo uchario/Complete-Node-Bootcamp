@@ -71,12 +71,21 @@ exports.updateTourById = async (req, res) => {
     }
 };
 
-exports.deleteTourById = (req, res) => {
-    res.status(204)
+exports.deleteTourById = async (req, res) => {
+    try {
+        const tour = await Tour.findByIdAndDelete(req.params.id);
+        res.status(204)
         .json({
             status: 'success',
-            data: null
+            data: tour
         });
+    }catch(e) {
+        res.status(404)
+            .json({
+                status: 'fail',
+                message: e
+            });
+    }
 };
 
 exports.createTour = async (req, res) => {
