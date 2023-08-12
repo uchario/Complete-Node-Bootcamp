@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { promisify } = require('util');
 
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
@@ -15,7 +16,8 @@ exports.signup = catchAsync( async(req, res, next) => {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
-        passwordConfirm: req.body.passwordConfirm
+        passwordConfirm: req.body.passwordConfirm,
+        passwordChangedAt: req.body.passwordChangedAt
     });
 
     const token = signToken(newUser._id);
@@ -55,11 +57,23 @@ exports.protect = catchAsync( async (req, res, next) => {
     let token;
     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         token = req.headers.authorization.split(' ')[1];
-        console.log(token);
     }
 
     if(!token) {
         return next(new AppError("You're not authorized to access this route!", 401))
     }
+
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+    
+    const freshUser = await User.findById(decoded.id);
+    if(!freshUser) {
+        return next(new AppError("User doesn't exist", 401));
+    }
+    
+    if(freshUser.changedPasswordAfter(decoded.iat)) {
+        return next(new AppError('Password changed!', 401));
+    };
+    
+    req.user = freshUser;
     next();
 });
