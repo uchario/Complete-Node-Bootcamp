@@ -14,7 +14,7 @@ const signToken = (id) => {
 };
 
 const createSendToken = (user, statusCode, res) => {
-     const token = signToken(user._id);
+    const token = signToken(user._id);
     
     res.status(statusCode)
         .json({
@@ -145,7 +145,7 @@ exports.resetPassword = catchAsync(async (req, res ,next) => {
     user.passwordResetTokenExpiresIn = undefined;
     await user.save();
 
-    createSendToken(user, 200, res)
+    createSendToken(user, 200, res);
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
@@ -158,5 +158,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
     user.passwordConfirm = req.body.passwordConfirm;
     await user.save();
 
-    createSendToken(user, 200, res)
+    createSendToken(user, 200, res);
 })
