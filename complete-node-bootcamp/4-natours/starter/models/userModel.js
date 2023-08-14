@@ -47,6 +47,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['user', 'guide', 'lead-guide', 'admin'],
         default: 'user'
+    },
+    isActive: {
+        type: Boolean,
+        default: true,
+        select: false
     }
 });
 
@@ -64,6 +69,11 @@ userSchema.pre('save', function(next) {
         return next();
     }
     this.passwordChangedAt = Date.now() - 1000;
+    next();
+})
+
+userSchema.pre(/^find/, function(next) {
+    this.find({isActive: {$ne: false}});
     next();
 })
 
