@@ -72,7 +72,7 @@ exports.protect = catchAsync( async (req, res, next) => {
     }
 
     if(!token) {
-        return next(new AppError("You're not authorized to access this route!", 401))
+        return next(new AppError("You're not authorized to access this route!", 401));
     }
 
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
@@ -95,7 +95,7 @@ exports.restrictTo = (...roles) => {
         if(!roles.includes(req.user.role)) {
             return next(new AppError('Unauthorized user!', 403));
         }
-         next();
+        next();
     });
 };
 
