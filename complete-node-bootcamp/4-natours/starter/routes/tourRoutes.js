@@ -11,11 +11,13 @@ const {
 } = require('./../controllers/tourController');
 
 const authController = require('./../controllers/authController');
-const reviewController = require('./../controllers/reviewController');
+const reviewRouter = require('./../routes/reviewRoutes');
 
 const router = express.Router();
 
 // router.param('id', checkID);
+
+router.use('/:tourId/reviews', reviewRouter);
 
 router.route('/top-5-cheap')
         .get(aliasTopTours, getAllTours);
@@ -39,11 +41,11 @@ router.route('/:id')
                 deleteTourById
                 );
 
-router.route('/:tourId/reviews')
-        .post(
-                authController.protect, 
-                authController.restrictTo('guide'),
-                reviewController.createReview
-        );
+// router.route('/:tourId/reviews')
+//         .post(
+//                 authController.protect, 
+//                 authController.restrictTo('guide'),
+//                 reviewController.createReview
+//         );
 
 module.exports = router;
