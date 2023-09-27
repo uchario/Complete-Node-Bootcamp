@@ -68,12 +68,6 @@ exports.createUser = (req, res) => {
             message: 'Route not configured'
         })
 }
-exports.updateUserById = (req, res) => {
-    res.status(500)
-        .json({
-            status: 'error',
-            message: 'Route not configured'
-        })
-};
+exports.updateUserById = factory.updateOne(User);
 
 exports.deleteUserById = factory.deleteOne(User);
