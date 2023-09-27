@@ -16,41 +16,43 @@ exports.aliasTopTours = (req, res, next) => {
     next();
 }
 
-exports.getAllTours = catchAsync( async (req, res, next) => {
-    const features = new APIFeatures(Tour.find(), req.query)
-                                .filter()
-                                .sort()
-                                .limit()
-                                .paginate();
-    const tours = await features.query;
-    // const tours = await Tour.find()
-    //                         .where('duration')
-    //                         .equals(5)
-    //                         .where('difficulty')
-    //                         .equals('easy');
-    res.status(200)
-        .json({
-            status: 'success',
-            results: tours.length,
-            data: {
-                tours: tours
-            }
-        });
-});
+// exports.getAllTours = catchAsync( async (req, res, next) => {
+//     const features = new APIFeatures(Tour.find(), req.query)
+//                                 .filter()
+//                                 .sort()
+//                                 .limit()
+//                                 .paginate();
+//     const tours = await features.query;
+//     // const tours = await Tour.find()
+//     //                         .where('duration')
+//     //                         .equals(5)
+//     //                         .where('difficulty')
+//     //                         .equals('easy');
+//     res.status(200)
+//         .json({
+//             status: 'success',
+//             results: tours.length,
+//             data: {
+//                 tours: tours
+//             }
+//         });
+// });
 
-exports.getTourById = catchAsync ( async (req, res, next) => {
-    const tour = await Tour.findById(req.params.id).populate('reviews');
-    if(!tour) {
-        return next(new AppError("Tour ID doesn't exist", 404));
-    }
-    res.status(200)
-    .json({
-        status: 'success',
-        data: {
-            tour
-        }
-    });
-});
+// exports.getTourById = catchAsync ( async (req, res, next) => {
+//     const tour = await Tour.findById(req.params.id).populate('reviews');
+//     if(!tour) {
+//         return next(new AppError("Tour ID doesn't exist", 404));
+//     }
+//     res.status(200)
+//     .json({
+//         status: 'success',
+//         data: {
+//             tour
+//         }
+//     });
+// });
+exports.getAllTours = factory.getAll(Tour);
+exports.getTourById = factory.getOne(Tour, {path: 'reviews'});
 
 // exports.updateTourById = catchAsync ( async (req, res, next) => {
 //     const tour = await Tour.findByIdAndUpdate(
