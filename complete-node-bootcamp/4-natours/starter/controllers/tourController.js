@@ -89,7 +89,6 @@ exports.getTourById = factory.getOne(Tour, {path: 'reviews'});
 // });
 
 exports.updateTourById = factory.updateOne(Tour);
-
 exports.deleteTourById = factory.deleteOne(Tour);
 
 // exports.createTour = catchAsync( async (req, res, next) => {
