@@ -52,26 +52,26 @@ exports.getTourById = catchAsync ( async (req, res, next) => {
     });
 });
 
-exports.updateTourById = catchAsync ( async (req, res, next) => {
-    const tour = await Tour.findByIdAndUpdate(
-        req.params.id, 
-        req.body, 
-        {
-            new: true,
-            runValidators: true
-        }
-    );
-    if(!tour) {
-        return next(new AppError("Tour ID doesn't exist", 404));
-    }
-    res.status(200)
-    .json({
-        status: 'success',
-        data: {
-            tour
-        }
-    });
-});
+// exports.updateTourById = catchAsync ( async (req, res, next) => {
+//     const tour = await Tour.findByIdAndUpdate(
+//         req.params.id, 
+//         req.body, 
+//         {
+//             new: true,
+//             runValidators: true
+//         }
+//     );
+//     if(!tour) {
+//         return next(new AppError("Tour ID doesn't exist", 404));
+//     }
+//     res.status(200)
+//     .json({
+//         status: 'success',
+//         data: {
+//             tour
+//         }
+//     });
+// });
 
 // exports.deleteTourById = catchAsync( async (req, res, next) => {
 //     const tour = await Tour.findByIdAndDelete(req.params.id);
@@ -86,17 +86,19 @@ exports.updateTourById = catchAsync ( async (req, res, next) => {
    
 // });
 
+exports.updateTourById = factory.updateOne(Tour);
+
 exports.deleteTourById = factory.deleteOne(Tour);
 
-exports.createTour = catchAsync( async (req, res, next) => {
-    const newTour = await Tour.create(req.body);
-        res.status(201)
-                .json({
-                    status: 'success',
-                    data: {
-                        tours: newTour
-                    }
-                });
+// exports.createTour = catchAsync( async (req, res, next) => {
+//     const newTour = await Tour.create(req.body);
+//         res.status(201)
+//                 .json({
+//                     status: 'success',
+//                     data: {
+//                         tours: newTour
+//                     }
+//                 });
     // try {
         
     // } catch(e) {
@@ -106,7 +108,9 @@ exports.createTour = catchAsync( async (req, res, next) => {
     //             message: e
     //         });
     // }
-});
+// });
+
+exports.createTour = factory.createOne(Tour);
 
 exports.getTourStats = catchAsync( async (req, res, next) => {
     const stats = await Tour.aggregate([
